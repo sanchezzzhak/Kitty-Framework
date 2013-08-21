@@ -1,0 +1,11 @@
+<?
+	/**
+	* Class Behavior
+	* 
+	*/
+	class Behavior {
+		
+		
+		
+	}
+?>
