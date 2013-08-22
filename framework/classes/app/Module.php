@@ -101,8 +101,11 @@ class Module extends ExtendBaseClass {
 			$class = $name."_module";	
 			if(class_exists($class,false)){
 				// Зададим путь к модулю
+				$path = pathinfo( $path , PATHINFO_DIRNAME);
+				/*
 				$ref = new ReflectionClass($class);	
 				$path = pathinfo( $ref->getFileName(), PATHINFO_DIRNAME);
+				*/
 				$module = new $class( array( 
 					'basePath'=> $path, 
 				));
