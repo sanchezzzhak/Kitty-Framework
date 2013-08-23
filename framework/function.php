@@ -3,7 +3,7 @@
 	 * Экземпляр класса приложения
 	 **/
 	function app(){
-		return app::make();
+		return App::make();
 	}
 
     /** 
@@ -24,39 +24,9 @@
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == "XMLHttpRequest";
     }
 
-	/**
-     * это Url?
-	 * @return true / false 
-     */
-    function isUrl($url=false) {
-        if (!preg_match_all('/^(http|https|ftp):\/\/((?:[a-zA-Z0-9_-\#]+\.?)+):?(\d*)/', $url, $m)) return false;  else return true;
-    }
-
 	function redirect($url,$terminate=true,$statusCode=302){
 		header('Location: '.$url, true, $statusCode);
 		if($terminate) exit(1);
-	}
-	
-	
-
-
-
-	/** (***)
-     * Подключить шаблон из папки /app/templates/
-     * @param $comand string Команда служит путем до файла
-     * @param $arrParams array параметры которые передаются шаблону  * 3 и более аргументы функции доступны для личных нужд шаблонов * $args[0] 1 Аргумент($comand), $args[2] 2 Аргумент( $arrParams )  $args[3] ваш агрумент
-     * return true / false
-	 */
-	function initAppTmpl($comand = null , $arrParams = array() ){
-        if(is_null($comand)) return false;
-        $args = func_get_args();
-
-        $include_file = "/app/templates/". $comand . ".php";
-        if(file_exists( root  . $include_file )){
-            include root . $include_file;
-            return true;
-        }
-		return false;
 	}
 
 	/**
@@ -84,7 +54,6 @@
 	 * @param  $message ключ перевода
 	 **/
 	function t($dictionary , $message , $format = null ){
-		
 		return $massage;
 	}
 	
@@ -272,22 +241,39 @@
 		return $arrPage;
 	}
 
-	/**
-	 * Получить редактор CKEditor 
-	 * @param  $name  имя
-	 * @param  $value значение 	 
-	 **/
-	function CKEditor($name , $value = '' ){
-		include_once  doc_root . "/assets/backend/js/ckeditor/ckeditor.php";
-		$CKEditor = new CKEditor('/assets/backend/js/ckeditor/');
-		$CKEditor->textareaAttributes['id'] =  $name;
-		$CKEditor->editor($name, $value);
-	}
-	
-	function _unset(&$arg1 , &$arg2 = null, &$arg3 = null , &$arg4 = null){
-		$arg1 = $arg2 = $arg3 = $arg4 = null;
-		gc_collect_cycles();
-	}
-	
-	
+    /*
+    * Добавдяет к имени файла прификс
+    *
+    */
+    function photo_path($path, $size=''){
+        if(empty($path)) return '';
+        $path = pathinfo($path);
+        if(!empty($size) && strpos($size,'_') ===false) $size.='_';
+        $p = preg_replace('#(h|w|p){0,1}?([0-9]){2,3}_#ixs', '', $path['basename']);
+
+        return $path['dirname'].'/'.$size.$p;
+    }
+
+    /*
+     *	Функция возварщяет текущий URL удаляя из текущего URL указанные параметры и заменяя их новыми
+     *	@param $param  новые парамеры
+     *   @param $clear_param удаляемые параметры,
+     *	можно указывать массив или строку со значениями через запятую.
+     *
+     *	<a href="<?=current_url('sort=price','sort')?>">Сортировать по цене</a>
+     */
+    function current_url($param, $clear_param = array() ){
+        $arr = array();
+        $url = $_SERVER['REQUEST_URI'];
+        $url = parse_url($url);
+        if(isset($url['query'])){
+            parse_str($url['query'], $arr);
+            if(is_string($clear_param))  $clear_param = explode(',',$clear_param);
+            foreach($clear_param as $item)	unset($arr[$item]);
+            parse_str($param, $arr2);
+            $arr =array_merge($arr,$arr2);
+        }
+        return $url['path'] . (count($arr) > 0  ?'?' . http_build_query($arr):'');
+    }
+
 ?>

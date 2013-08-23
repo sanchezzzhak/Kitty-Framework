@@ -30,11 +30,11 @@ class autoload {
 	public static function addIncludePath($path){
 		$_paths =  array_unique(explode(PATH_SEPARATOR,get_include_path()));
 		set_include_path(
-			get_include_path() . PATH_SEPARATOR . implode( PATH_SEPARATOR, $paths)
+			get_include_path() . PATH_SEPARATOR . implode( PATH_SEPARATOR, $_paths)
 		);	
 	}
-  
-  
+
+
   
   
 	/**
@@ -52,7 +52,16 @@ class autoload {
    * @param string $pfix - прификс файлов .class.php 
    **/
   public static function addPath($path){
-	self::$_path_class[$path]  = '';
+      $base_path = dirname(__FILE__)."/../../../";
+      if(!is_dir($path) ){
+          if(is_dir($base_path . trim($path,'/') )){
+              $path = $base_path . trim($path,'/');
+          }else{
+              return;
+          }
+      }
+
+      self::$_path_class[$path]  = '';
   }
   
   /**
@@ -134,8 +143,10 @@ class autoload {
 	// проходим карту добавленых путей
 	if(count(self::$_path_class)){
 		foreach(self::$_path_class as $path =>$pfix){
-			$path1 = doc_root . DS . trim($path ,'/') .  DS  . ucfirst($class) .'.php';
-			$path2 = doc_root . DS . trim($path ,'/') .  DS  . $class .'.php';
+
+			$path1 = trim($path ,'/') .  '/'  . ucfirst($class) .'.php';
+			$path2 = trim($path ,'/') .  '/'  . $class .'.php';
+
 			if(is_file( $path1  ) ){
 				include_once $path1;
 				return true;

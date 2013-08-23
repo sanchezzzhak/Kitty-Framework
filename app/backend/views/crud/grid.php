@@ -1,2 +1,2 @@
 
-<? include dirname(__FILE__). "/_menu.php";?> 
+<? include dirname(__FILE__) . "/_menu.php";?>

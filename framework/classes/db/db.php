@@ -35,7 +35,7 @@
 			$conf = config::get('db'); // список конфигов БД
 			
 			if(!isset($conf[$name])){
-				throw new CException('Указанная конфиге, db.{name} не найден', array(
+				throw new ExceptionError('Указанная конфиге, db.{name} не найден', array(
 					'{name}'=> $name  )
 				);		
 			}
@@ -209,7 +209,7 @@
 					$this->_pdo->exec('SET NAMES '. $this->_pdo->quote( $charset ));
 										
 			} catch (PDOException $e) { 
-			    throw new CException("PDO CONNECTION ERROR: {error} " , array(
+			    throw new ExceptionError("PDO CONNECTION ERROR: {error} " , array(
 					'{error}' => $e->getMessage() )
 				);
 			}

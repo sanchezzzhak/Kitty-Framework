@@ -27,10 +27,10 @@ class app
 	 **/
 	public static function __callStatic($method, array $arguments) {
 		if(is_null(self::$_app)){
-			throw new CException('Этот метод можно вызвать только после инициализации приложения');	
+			throw new ExceptionError('Этот метод можно вызвать только после инициализации приложения');	
 		}
 		if(!method_exists(self::$_app, $method))
-			throw new CException('Указанный метод {method} не найден в классе {class} ', array(
+			throw new ExceptionError('Указанный метод {method} не найден в классе {class} ', array(
 				'{method}' => $method,
 				'{class}'  => get_class(self::$_app),
 			));	

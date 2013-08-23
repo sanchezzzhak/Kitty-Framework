@@ -51,15 +51,15 @@ class Storage {
 
 		for ($i = 0; $i < $nesting_level; $i++){
 			if (!file_exists($filedir)){
-				throw new CException('Directory not exists: :filedir', array(':filedir' => $filedir));
+				throw new ExceptionError('Directory not exists: :filedir', array(':filedir' => $filedir));
 			}
 
 			if (!is_dir($filedir)){
-				throw new CException('Not directory: :filedir', array(':filedir' => $filedir));
+				throw new ExceptionError('Not directory: :filedir', array(':filedir' => $filedir));
 			}
 
 			if (!is_writable($filedir)){
-				throw new CException('Not writable directory: :filedir', array(':filedir' => $filedir));
+				throw new ExceptionError('Not writable directory: :filedir', array(':filedir' => $filedir));
 			}
 
 			$filedir .= substr($filename, $i * 2, 2).'/';

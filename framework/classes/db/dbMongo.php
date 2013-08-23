@@ -21,11 +21,11 @@ class dbMongo {
 	
 	public function __construct($host=null, $persistent = false){
 		if(!class_exists("Mongo",false))
-			throw new CException("php_mongo расширение не установлен");			
+			throw new ExceptionError("php_mongo расширение не установлен");			
 		try{	
 			$host = !empty($host) ? $host : $this->_server;
 			$this->_mongo_connection = new Mongo($host, true, $persistent);	
-		}catch(CException $e){
+		}catch(ExceptionError $e){
 			throw $e;
 		}
 	}
@@ -76,7 +76,7 @@ class dbMongo {
 		try{
 			$this->_mongo = $this->_mongo_connection->selectDB($name);
 			return $this;
-		}catch(CException $e){
+		}catch(ExceptionError $e){
 			throw $e;
 		}
 	}
@@ -87,7 +87,7 @@ class dbMongo {
 	public function getDb(){
 		$result  = ($this->_mongo instanceof MongoDB) ? $this->_mongo: false;
 		if(!$result){
-			throw new CException('Не выбрана MongoDB');
+			throw new ExceptionError('Не выбрана MongoDB');
 		}
 		return $result;
 		
@@ -100,7 +100,7 @@ class dbMongo {
 	public function execute($code, $params = array() ){
 		$result = $this->getDb()->execute($code, $params);
 		if(!$result['ok']){
-			throw new CException("Error: {error}\nCode: {js}", array(
+			throw new ExceptionError("Error: {error}\nCode: {js}", array(
 				'{error}'=> $result['errmsg'],
 				'{js}'=> $code,
 			));		

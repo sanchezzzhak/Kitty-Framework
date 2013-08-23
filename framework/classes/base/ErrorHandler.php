@@ -149,7 +149,7 @@ class ErrorHandler {
 				}
 				app::end(1);
 			}
-			catch(CException $e){
+			catch(ExceptionError $e){
 				$this->displayException($e);
 			}
 			
@@ -204,7 +204,7 @@ class ErrorHandler {
 		ob_start() && extract($param, EXTR_SKIP);
 		try{
 			include dirname(__FILE__) . "/../../views/" . trim($view,'/') . ".php";			
-		}catch (CException $e){
+		}catch (ExceptionError $e){
 			ob_end_clean();
 			throw $e;
 		}	

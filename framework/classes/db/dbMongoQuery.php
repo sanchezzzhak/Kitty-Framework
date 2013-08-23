@@ -126,7 +126,7 @@ class dbMongoQuery implements IteratorAggregate {
 			$this->_collection = $collection;
 			return;
 		}
-		throw new CException('Переданный аргумент в ' 
+		throw new ExceptionError('Переданный аргумент в ' 
 			. get_class($this) 
 			.'::__construct не является dbMongoCollection');
 	}

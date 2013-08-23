@@ -69,7 +69,7 @@ class dbMongoDocument {
 	 */
 	private function isInstanceCollection(){
 		if (!$this->_collection instanceOf dbMongoCollection )
-			throw new CException('dbMongoCollection не задан');
+			throw new ExceptionError('dbMongoCollection не задан');
 	}
 	
 	/**

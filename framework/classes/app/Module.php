@@ -28,7 +28,7 @@ class Module extends ExtendBaseClass {
 	public function getBasePath(){
 		$path = $this->basePath;
 		if(empty($path)) 
-			throw new CException('В конфигурации переложения не указан параметр basePath');
+			throw new ExceptionError('В конфигурации переложения не указан параметр basePath');
 		return $path;
 	}
 	
@@ -67,12 +67,15 @@ class Module extends ExtendBaseClass {
 				$operation =  (!empty($this->name) ? $this->name . '::' : '')
 				              . implode('->',array( $name , $action ));
 							  
-				$controller->setOperation( $operation );
+
 				$controller->param = $params;
-				// Выполнили до
-				$controller->before();
-				if(method_exists( $controller  , 'action'.$action)){ 
+
+				if(method_exists( $controller  , 'action'.$action)){
+                    $controller->setOperation( $operation );
+                    // Выполнили до
+                    $controller->before();
 					$controller->{'action'.$action}();
+
 				}else $result = false;
 				// Выполнили после	
 				$controller->after();	
@@ -100,19 +103,19 @@ class Module extends ExtendBaseClass {
 			include_once $path;
 			$class = $name."_module";	
 			if(class_exists($class,false)){
-				// Зададим путь к модулю
-				$path = pathinfo( $path , PATHINFO_DIRNAME);
 				/*
 				$ref = new ReflectionClass($class);	
 				$path = pathinfo( $ref->getFileName(), PATHINFO_DIRNAME);
 				*/
+                $path = pathinfo( $path , PATHINFO_DIRNAME);
+
 				$module = new $class( array( 
-					'basePath'=> $path, 
+					'basePath'=> $path,
 				));
 				
 				$module->init();
 				// Регестрируем путь для моделей
-				Autoload::addPath($path . DIRECTORY_SEPARATOR . "models" );
+				Autoload::addPath($path . "/" . "models" );
 				// Запуск контролера в модуле
 				if(!empty($controller)){
 					$module->name = $name;

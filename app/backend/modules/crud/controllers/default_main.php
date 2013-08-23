@@ -7,7 +7,7 @@
 	
 	class default_main_controller extends controller {
 		
-		public $layout = 'main'; 		
+		public $layout = '//main'; 		
 				
 		public function actionIndex(){
 

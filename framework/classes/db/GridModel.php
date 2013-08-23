@@ -49,7 +49,7 @@ class gridModel
     public function __construct( $config = array() ){
 		$this->model  = arr::get($config , 'model' , null );
 		if(is_null( $this->model)) {
-			throw new CException('Не указана модель');
+			throw new ExceptionError('Не указана модель');
 		}
 		$this->relations      =  arr::get( $config, 'relations', array() );
 		$this->columns = arr::get( $config ,'columns',array());

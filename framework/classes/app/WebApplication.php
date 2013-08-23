@@ -18,7 +18,10 @@ class WebApplication extends Module {
 	}
 	
 	/* Метод вызывается по умолчанию */
-	public function init(){}
+	public function init(){
+
+
+    }
 
 	/*
 	 * Запус приложения 

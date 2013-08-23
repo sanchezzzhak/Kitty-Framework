@@ -68,7 +68,7 @@ class ExtendBaseClass {
 			}
 		}
 		
-		throw new CException('Запрашиваемое свойство {class}::{name} не найдено', array(
+		throw new ExceptionError('Запрашиваемое свойство {class}::{name} не найдено', array(
 			'{class}'=> get_class($this), 
 			'{name}' => $name,
 		));
@@ -94,7 +94,7 @@ class ExtendBaseClass {
 		}
 		
 		
-		throw new CException('Запрашиваемое свойство {class}::{name} не найдено', array(
+		throw new ExceptionError('Запрашиваемое свойство {class}::{name} не найдено', array(
 			'{class}'=> get_class($this), 
 			'{name}' => $name,
 		));
@@ -186,7 +186,7 @@ class ExtendBaseClass {
 			$this->_behaviors = array();
 			$arr = $this->behaviors();
 			if(!is_array($arr))
-				throw new CException('Метод {class}::behaviors() должен возвращать массив', array(
+				throw new ExceptionError('Метод {class}::behaviors() должен возвращать массив', array(
 					'{class}'=> get_class($this),
 				));
 			foreach ($arr as $name => $behavior) {

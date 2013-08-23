@@ -1,6 +1,6 @@
 <?php
 /*
- * #CodeName# 
+ * #CodeName#
  * @author  
  * @copyright  
  * @
@@ -10,45 +10,67 @@ if (!defined('doc_root')) exit('No direct script access allowed');
 
 class Controller { 
 	
-	public 
+	public
 		$param,                // Параметры переданые через Router
 		$layout,               // Указатель на слой
-		$pageTitle ,           // 
-		$pageKeywords, 
-		$pageDescription;
-		
-	
-	protected $_operation;
-	
-	public function getOperation(){
+		$pageTitle ,           // Задать заголовок
+		$pageKeywords,         // Задать ключевые слова
+		$pageDescription;      // Задать описания страницы
+
+	protected $_operation;     // Адресс операции
+
+    /**
+     * Возращяет текущию операцию в виде строки или массива
+     * @param $return_arr = true результат в виде массива
+     * Создать сылку на основе запускаемого метода
+     * $link = implode('/',$this->getOperation(true));
+     * @return string
+     **/
+	public function getOperation($return_arr = false){
+        if($return_arr){
+           preg_match('#((?P<module>(.*))\:\:)?(?P<controller>.*)\->(?P<action>.*)#is', $this->_operation ,$matcher);
+           return array('module'=> $matcher['module'], 'controller'=> $matcher['controller'],'action'=>$matcher['action']);
+        }
 		return  $this->_operation;
 	}
+
+    /**
+     * Установить операцию в виде строки
+     * @param $string адресс операции
+     * Формат должен быть задана в виде строки  Module>::Controller->Action или Controller->Action
+     * $this->_operation задается автоматически при вызове App::runController или App::RunModule
+     **/
 	public function setOperation($string){
 		$this->_operation = $string;
 	}
-	
-	/*
+
+
+
+
+	/**
 	 * Метод вызывается до вызова контролера
+	 * @return bool
 	 * */
 	public function before(){
 		// $event = new Event();
 		return true;
-		
 	}
-	/*
+
+	/**
 	 * Метод вызывается после вызова контролера
+     * @return bool
 	 * */
 	public function after(){
 		// $event = new Event();
 		return true;
 	}
 
-	
 	/**
 	 * Получить пост
 	 * @param  $name имя ключа в массиве $_POST если ключ не указан возращяем полный массив _post
 	 * @param  $default значение по умолчанию
-	 * @return ?
+     * @param  $type Указывает какое правило использовать для валидации
+	 * @return mixed
 	 **/
 	public function post($name=null, $default = null, $type = null){
 		return  is_null($name) ? $_POST :  arr::get($_POST,$name,$default,$type);
@@ -58,18 +80,20 @@ class Controller {
 	 * Получить куку
 	 * @param  $name имя ключа в массиве $_COOKIE если ключ не указан возращяем полный массив _cookie
 	 * @param  $default значение по умолчанию
-	 * @return ?
+     * @param  $type Указывает какое правило использовать для валидации
+	 * @return mixed
 	 **/
-	public function cookie($name =null, $default = null){
+	public function cookie($name =null, $default = null , $type = null ){
 		return  is_null($name) ? $_COOKIE :  arr::get($_COOKIE,$name,$default,$type);
 	}
 	
 	
 	/**
-	 * Полкчит гет
+	 * Получить гет
 	 * @param  $name имя ключа в массиве $_GET если ключ не указан возращяем полный массив _get
 	 * @param  $default значение по умолчанию
-	 * @return ?
+     * @param  $type Указывает какое правило использовать для валидации
+     * @return mixed
 	**/
 	public function get($name=null, $default = null,$type = null){
 		return  is_null($name) ? $_GET : arr::get($_GET,$name,$default,$type);
@@ -85,8 +109,11 @@ class Controller {
 		header('Location: '.$url , true, $http_code);
 		exit(1);
 	}
-	
-	/**
+
+
+
+
+    /**
 	 * Подключить указаный view
 	 * @param  $view  путь/название вида для подключения
 	 * @param  $data  параметры которые, нужно передать во view
@@ -99,7 +126,7 @@ class Controller {
 		
 		if(!file_exists($file)){
 			$path = pathinfo($file);
-			throw new CException('Файл {view} представление не найдено ', array(
+			throw new ExceptionError('Файл {view} представление не найдено ', array(
 				'{view}' => $path['basename'],
 				'{path}' => $path['dirname'],
 			));
@@ -107,7 +134,7 @@ class Controller {
 		ob_start() and extract($data, EXTR_SKIP);
 		try{
 			include $file;
-		}catch (CException $e){
+		}catch (ExceptionError $e){
 			ob_end_clean();
 			throw $e;
 		}	
@@ -159,7 +186,7 @@ class Controller {
 	/**
 	 * Метод вызывается до рендера
 	 **/
-	protected function beforeRender($view){
+	protected function beforeRender( $view ){
 		return true;
 	}
 	

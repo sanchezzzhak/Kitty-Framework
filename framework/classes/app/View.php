@@ -48,7 +48,7 @@ class view {
 		
 		if(!file_exists($file)){
 			$path = pathinfo($file);
-			throw new CException('Файл '.$path['basename'].' представления не найден');
+			throw new ExceptionError('Файл '.$path['basename'].' представления не найден');
 		}	
 		return $file;
 	}
@@ -116,7 +116,7 @@ class view {
 		try{
 			include $cv_view_filename;
 		}
-		catch (CException $e){
+		catch (ExceptionError $e){
 			ob_end_clean();
 			throw $e;
 		}
@@ -135,7 +135,7 @@ class view {
 			$this->set_filename($file);
 		}
 		if (empty($this->_file)){
-			throw new CException('Не указан файл view для render');
+			throw new ExceptionError('Не указан файл view для render');
 		}
 
 		return $this->load_view($this->_file, $this->_data);

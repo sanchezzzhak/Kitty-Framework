@@ -630,7 +630,7 @@ $(function(){
 	$grid->render();
 	*/
 ?>
-	<? include dirname(__FILE__)."/_menu.php";?>
+	<? include dirname(__FILE__) . "/_menu.php";?>
 		
 	<div class="error"></div>
 	<div style="margin:10px;">

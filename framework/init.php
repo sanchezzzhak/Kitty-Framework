@@ -6,9 +6,10 @@
 	 * 
 	 **/
 
-	if(!defined('DS')) 	define('DS', DIRECTORY_SEPARATOR );
+	if(!defined('DS')) 	define('DS', "/" /*DIRECTORY_SEPARATOR*/ );
 	define('root' , dirname(__FILE__) );
-	define('doc_root' ,'');
+	define('doc_root' , root . "/.." );
+
 	require root . "/function.php";	
 	require root . "/classes/base/Autoload.php";
 	
@@ -45,7 +46,7 @@
 		// Base classes
 		'Config' 			=> root . '/classes/base/Config.php',
 		'ExtendBaseClass'   => root . '/classes/base/ExtendBaseClass.php',	
-		'CException'        => root . '/classes/base/Exception.php',
+		'ExceptionError'        => root . '/classes/base/ExceptionError.php',
 		'ErrorHandler'      => root . '/classes/base/ErrorHandler.php',
 		
 		// Другие классы 
@@ -69,12 +70,7 @@
 	
 	
 	session::instance();
-	/*$id = 99999999999;
-	pre($id);
-	pre($id = Base62::encode($id));
-	pre(Base62::decode($id));
-	*/
-	
+
 
 	
 	

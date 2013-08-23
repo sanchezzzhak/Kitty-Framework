@@ -38,7 +38,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</a>
-			<a class="brand bootsnippbrand" href="/admin">#CodeName#</a>
+			<a class="brand bootsnippbrand" href="/admin"><i class="icon-gift icon-white"></i></a>
 			
 			<div class="nav-collapse collapse">	
 				<ul class="nav">
@@ -89,8 +89,9 @@
 
 
 
+    <div style="padding-left:10px;">
+        <?=$content?>
+    </div>
 
-
-	<?=$content?>
 </body>
 </html>

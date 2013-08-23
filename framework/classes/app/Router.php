@@ -210,16 +210,15 @@ class router {
 					return true;
 				}
 				
-				
+
 				// Запуск модуля
 				if(!empty($module_name) 
-				&&  App::runModule( $module_name , $controller_name, $controller_action, $params )){
+				&&  App::runModule( $module_name , $controller_name, $controller_action, $params ) ){
 					return true;
 				}
 				// Запуск контроллера
 				if(empty($module_name) 
 				&& App::runController($controller_name,$controller_action,$params)){
-					
 					return true;		
 				}
 				

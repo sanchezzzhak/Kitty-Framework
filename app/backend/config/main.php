@@ -1,7 +1,7 @@
 <?
 
 // «апуск модул€ контроллера и нужного нам действи€ 
-router::set('module+controller+action', '/admin/:module/:controller/:action', array() )
+router::set('module+controller+action', '/admin/:module/:contoller/:action', array() )
 ->setController(':contoller', ':action')->setModule(':module'); 
 
 // «апуск модул€ выбраного контролера и метода
