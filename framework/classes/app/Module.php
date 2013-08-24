@@ -66,15 +66,20 @@ class Module extends ExtendBaseClass {
 				$controller = new $class;
 				$operation =  (!empty($this->name) ? $this->name . '::' : '')
 				              . implode('->',array( $name , $action ));
-							  
 
 				$controller->param = $params;
 
 				if(method_exists( $controller  , 'action'.$action)){
+
+                    // header('Kitty_path_controller: '.realpath($path));
+
                     $controller->setOperation( $operation );
                     // Выполнили до
                     $controller->before();
 					$controller->{'action'.$action}();
+
+
+
 
 				}else $result = false;
 				// Выполнили после	
@@ -112,7 +117,7 @@ class Module extends ExtendBaseClass {
 				$module = new $class( array( 
 					'basePath'=> $path,
 				));
-				
+
 				$module->init();
 				// Регестрируем путь для моделей
 				Autoload::addPath($path . "/" . "models" );

@@ -8,7 +8,7 @@
 
 	if(!defined('DS')) 	define('DS', "/" /*DIRECTORY_SEPARATOR*/ );
 	define('root' , dirname(__FILE__) );
-	define('doc_root' , root . "/.." );
+	define('doc_root' , realpath( root . "/..") );
 
 	require root . "/function.php";	
 	require root . "/classes/base/Autoload.php";

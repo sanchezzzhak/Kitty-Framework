@@ -8,7 +8,6 @@
         Сохранить</button>
 </div>
 
-
 <script>
    $(function(){
 
@@ -52,13 +51,16 @@
                        _this.removeClass('disabled').removeAttr('disabled').text(bnt_text);
                    }
                });
-
-
-
-
-
            }
        });
+
+       $('.list_path a').on('click',function(e){
+           $('input[name="path"]').val( $(this).text() );
+
+
+       });
+
+
    });
 </script>
 <blockquote>
@@ -89,7 +91,30 @@
 
             <div>
                 <div class="b-head"><label><i class="icon-folder-close"></i> Путь куда сохранить контроллер</label></div>
-                <input type="text" name="path" class="span12" value="/app/common/models/">
+
+                <div class="btn-group fr" style="margin: -1px 2px 0 0;">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu list_path">
+                        <li><a>/app/backend/controllers</a></li>
+                        <?foreach($arrPathBackend as $path):?>
+                             <li><a><?=$path?></a></li>
+                        <?endforeach;?>
+                        <li class="divider"></li>
+                        <li><a>/app/frontend/controllers</a></li>
+                        <?foreach($arrPathFrontend as $path):?>
+                            <li><a><?=$path?></a></li>
+                        <?endforeach;?>
+                    </ul>
+                </div>
+
+                <input type="text" name="path" class="span11 fl" value="/app/frontend/controllers">
+
+
+
+
             </div>
 
             <div class="row-fluid">

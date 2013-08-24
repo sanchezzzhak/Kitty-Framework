@@ -6,6 +6,9 @@
  * Time: 13:10
  * To change this template use File | Settings | File Templates.
  */
+
+
+
 class controller_controller extends Controller {
 
     public  $layout = '//main';
@@ -14,9 +17,28 @@ class controller_controller extends Controller {
     public function actionIndex(){
         $this->pageTitle = 'Конструктор контроллеров';
 
+        $arrPathFrontend = $arrPathBackend = array();
+        $path = doc_root . "/app/frontend/modules";
+        if(is_dir($path)){
+             $list = scandir($path);
+             foreach($list as $file){
+                if($file!='.' && $file!='..' && is_dir($path."/".$file)  )
+                    $arrPathFrontend[] =  '/app/frontend/modules/'.$file.'/controllers';
+             }
+        }
+
+        $path = doc_root . "/app/backend/modules";
+        if(is_dir($path)){
+            $list = scandir($path);
+            foreach($list as $file){
+                if($file!='.' && $file!='..' && is_dir($path."/".$file)  )
+                    $arrPathBackend[] =  '/app/backend/modules/'.$file.'/controllers';
+            }
+        }
 
         $this->render('controller_form',array(
-
+            'arrPathFrontend' => $arrPathFrontend,
+            'arrPathBackend' => $arrPathBackend,
         ));
 
     }
@@ -49,7 +71,7 @@ class controller_controller extends Controller {
         // doc_root;
         $path = App::getBasePath()."/../../".trim($path,'/');  // путь от /index.php
 
-        $arrAction = $this->post('action');
+        $arrAction = $this->post('action',array() );
 
         foreach($arrAction as $action){
             if(preg_match('#^[a-z]{1}([a-z0-9\_]+)$#i',$action) ){
