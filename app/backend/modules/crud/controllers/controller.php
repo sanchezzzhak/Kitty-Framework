@@ -55,7 +55,6 @@ class controller_controller extends Controller {
 
         if(!($name =  $this->post('name',null,'!empty'))){
             $error[] = 'Не назван контроллер';
-
         }elseif(!preg_match('#^[a-z]{1}([a-z0-9\_]+)$#i',$name) ){
             $error[] = 'Неверно заданно название контроллера';
         }
@@ -85,7 +84,6 @@ class controller_controller extends Controller {
         }
 
 
-
         if(count($error)==0){
 
            $content = $this->render('generators/template_controller',array(
@@ -99,6 +97,7 @@ class controller_controller extends Controller {
            $code_file = new CodeFile($path . "/".$name . ".php" , $content, $this->post('overwrite',false) );
            if($code_file->save()){
                $success = true;
+               $list[] = "Не забудьте включить модуль в настройках '$name'";
            }else{
                 $error+= $code_file->getErrors();
            }
