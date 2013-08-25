@@ -73,7 +73,7 @@
 					</li>
 					
 					<li>
-						<a href="/admin/crud" > Конструкторы</a>
+						<a href="/admin/crud"> Разработка </a>
 					</li>
 
 				</ul>

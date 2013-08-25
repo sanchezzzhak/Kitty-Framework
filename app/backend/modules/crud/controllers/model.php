@@ -15,9 +15,63 @@ class model_controller extends controller {
 
     }
 
-    // Создать / изменить
+    // Создать модель
     public function actionSave(){
-        PRINT '1';
+        $this->layout = false;
+        $success = false;
+
+        $error = $list = $attr = $rules = array();
+
+        if(!($name =  $this->post('name_model',null,'!empty'))){
+            $error[] = 'Не заданно название модели';
+        }elseif(!preg_match('#^[a-z]{1}([a-z0-9\_]+)$#i',$name) ){
+            $error[] = 'Неверно заданно название модели';
+        }
+
+        if(!($path = $this->post('path_model',null,'!empty')))
+            $error[] = 'Не указан путь для сохранения модели';
+
+        if(!($db_model = $this->post('db_model',null,'!empty'))){
+            $error[] = 'Не выбрана конфигурация БД';
+        }
+
+        if(!($table = $this->post('table',null,'!empty'))){
+            $error[] = 'Не выбра таблица';
+        }
+
+        if(!($pk_id = $this->post('pk_id',null,'!empty'))){
+            $error[] = 'Не указан PK таблицы';
+        }
+
+        $path = App::getBasePath()."/../../".trim($path,'/');  // путь от /index.php
+
+        // Выбранные аттребуты
+        $attr = $this->post('attr',null, array() );
+
+
+        if(count($error)==0){
+
+            $content = $this->render('generators/template_model',array(
+                'name'  => ucfirst($name),
+                'table' => $table,
+                'db'    => $db_model,
+                'id'    => $pk_id,
+                'attr'  => $attr,
+                'rules' => $rules,
+            ),true);
+
+            $code_file  = new CodeFile($path . "/".strtolower($name) . ".php" , $content, $this->post('overwrite',false) );
+            if(!$code_file->save()){
+                $error+= $code_file->getErrors();
+            }
+
+        }
+
+        print json_encode(array(
+            'success' => $success,
+            'errors'  => $error,
+            'list'    => $list,
+        ));
 
     }
 

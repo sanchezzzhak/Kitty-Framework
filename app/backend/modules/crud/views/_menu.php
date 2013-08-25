@@ -25,10 +25,9 @@
 		<a class="fl" href="/admin/crud/ui"> UI форма</a>
 		<a href="#" class="dropdown-toggle fl" data-toggle="dropdown" style="margin-left: -10px; padding: 10px;"><b class="caret"></b></a>
 		<ul class="dropdown-menu">
-			<li <?if($operation['action']=='uiforms'):?>class="active"<?endif;?>>
-				<a href="/admin/crud/uiforms"> Список форм</a>	
+			<li <?if($operation['action']=='forms'):?>class="active"<?endif;?>>
+				<a href="/admin/crud/ui/forms"> Список форм</a>
 			</li>
 		</ul>
 	</li>
-	
 </ul>

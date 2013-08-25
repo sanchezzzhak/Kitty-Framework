@@ -11,13 +11,11 @@ abstract class model {
 	 HAS_ONE    = 1,  // один-к-одному с другой моделью
 	 HAS_MANY   = 2;  // один-ко-многим
 
-
-	
-	
-	
 	protected
-	 $_edit_data   = array(),   # Список полей которые были отредактированы
-	 $_new         = false;     # Если новая вставка true
+	 $_edit_data   = array(),       # Список полей которые были отредактированы
+    // $_load_column_schema = false,  #
+    // $_is_load_schema = false,      # Означает что схема уже загружена
+     $_new         = false;         # Если новая вставка true
     	 
 	 
 	public
@@ -29,6 +27,8 @@ abstract class model {
 	 $_pk_id   = 0,          # PK  ID значение
 	 $_pk      = '',         # Имя PK названия атребута
 	 $_relation = array();   # Данные связанной модели
+
+
 	
 	
 	
@@ -274,7 +274,7 @@ abstract class model {
 			$return = false;
 			$setData  = array();
 
-		foreach($_class->_attr as $attr_name =>$attr){
+		foreach($this->_attr as $attr_name =>$attr){
 			$setData[$attr_name] = arr::get($this->_data,$attr_name,'null');
 		}
 		// insert
