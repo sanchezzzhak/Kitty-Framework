@@ -54,17 +54,18 @@ class model_controller extends controller {
             $content = $this->render('generators/template_model',array(
                 'name'  => ucfirst($name),
                 'table' => $table,
-                'db'    => $db_model,
-                'id'    => $pk_id,
-                'attr'  => $attr,
+                'db' => $db_model,
+                'id' => $pk_id,
+                'attrArr'  => $attr,
                 'rules' => $rules,
             ),true);
 
             $code_file  = new CodeFile($path . "/".strtolower($name) . ".php" , $content, $this->post('overwrite',false) );
             if(!$code_file->save()){
                 $error+= $code_file->getErrors();
+            }else{
+                $success = true;
             }
-
         }
 
         print json_encode(array(

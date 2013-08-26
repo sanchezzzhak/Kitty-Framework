@@ -107,7 +107,7 @@ $(function(){
 				'<div class="fr colum" style="width:30px;"><a href="javascript:;"><i class="icon-remove"></i></a></div>'+
 				'<div class="clear"></div>'+
 			'</div>');
-            
+
 		});
 
         $('.rule_list').on('click','.icon-remove',function(e){

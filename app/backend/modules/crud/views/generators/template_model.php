@@ -7,9 +7,9 @@ class <?=trim($name);?> extends model
     public $_db = 'default';         // Конфигурация БД
 
     public $_attr = array(
-        <?foreach($attrArr as $key => $attr):?>
-            '<?=$key?>' =>  array( 'name' => <?=$attr['name']?> ),
-        <?endforeach;?>
+    <?foreach($attrArr as $key => $attr):?>
+        '<?=$key?>'  =>  array( 'name' => <?=$attr['name']?> ),
+    <?endforeach;?>
     );
 
     static public function model(){
