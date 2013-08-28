@@ -1,11 +1,10 @@
 <?php
 /*
  Примеры конфигов под разные БД
-
 */
 
 
-Autoload::addPath( dirname(__FILE__) ."/../common/models/");
+
 
 
 return array(

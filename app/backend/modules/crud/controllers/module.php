@@ -1,6 +1,9 @@
 <?php
+use \kitty\web\arr;
+use \kitty\app\app;
 
-class module_controller extends Controller{
+
+class module_controller extends \kitty\app\Controller{
     public  $layout = '//main';
 
     // Форма

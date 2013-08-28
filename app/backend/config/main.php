@@ -1,4 +1,6 @@
 <?
+use \kitty\app\router;
+
 
 // «апуск модул€ контроллера и нужного нам действи€ 
 router::set('module+controller+action', '/admin/:module/:contoller/:action', array() )

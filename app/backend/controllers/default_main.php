@@ -5,7 +5,7 @@
 	 * Прификс _controller Обезателен в каждом классе контролера
 	 */
 	
-	class default_main_controller extends controller {
+	class default_main_controller extends \kitty\app\controller {
 		
 		public $layout = 'main'; // Слой
 				

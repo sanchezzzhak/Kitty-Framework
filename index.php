@@ -1,18 +1,18 @@
 <?
-
+	namespace kitty;
 	/* # -== kitty Freamwork ==- #
 	 * 
 	 **/
-
+	 
 	error_reporting(E_ALL | E_STRICT);
-	define('DEBUG',true);
+	
 
 	$dirname = dirname(__FILE__);
 	// Подключение фреймворка + базовые надстройки
-	include_once  $dirname  . "/framework/init.php";
+	include_once  $dirname  . "/kitty/init.php";
 
 	// Общий конфиг для backend и frontend
-	config::load( require( $dirname . "/app/config.php" ));
+	\kitty\app\config::load( require( $dirname . "/app/config.php" ));
 
 	// Если backend-config
 	if(preg_match('#^/admin/?([^/.,;?\n]+)?#i', $_SERVER['REQUEST_URI'] )){
@@ -23,11 +23,8 @@
 	}
 	// Создаем приложение 
 
-	$app = app::make('WebApplication', $config );
+	$app = \kitty\app\app::make('\kitty\app\WebApplication', $config );
 	$app->run();    
 
-	/*
-	$db = db::make('db2');
-	pre($db->show_tables() );
-	*/
+
 

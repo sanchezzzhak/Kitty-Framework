@@ -1,13 +1,14 @@
 <?
+use kitty\web\arr;
 
-class model_controller extends controller {
+class model_controller extends \kitty\app\controller {
     public  $layout = '//main';
 
     // Форма
     public function actionIndex(){
         $this->pageTitle = 'Конструктор модели';
 
-        $arrDb = array_keys(config::get('db'));
+        $arrDb = array_keys(\kitty\app\config::get('db'));
 
         $this->render('model_form',array(
             'arrDb'=>$arrDb
@@ -43,7 +44,7 @@ class model_controller extends controller {
             $error[] = 'Не указан PK таблицы';
         }
 
-        $path = App::getBasePath()."/../../".trim($path,'/');  // путь от /index.php
+        $path = \kitty\app\App::getBasePath()."/../../".trim($path,'/');  // путь от /index.php
 
         // Выбранные аттребуты
         $attr = $this->post('attr',null, array() );
@@ -85,7 +86,7 @@ class model_controller extends controller {
         $db_name = $this->post('db');
         $table_name = $this->post('table');
         if(isAjax() && !empty($db_name) && !empty($table_name)){
-            $db = db::make($db_name);
+            $db = \kitty\db\db::make($db_name);
             $result = $db->show_columns($table_name);
         }
         print json_encode($result);
@@ -100,7 +101,7 @@ class model_controller extends controller {
         $db_name = $this->post('db',null);
         if(isAjax() && !empty($db_name)){
 
-            $db = db::make($db_name);
+            $db = \kitty\db\db::make($db_name);
 
             $result = array();
             $result['tables'] = $db->show_tables();

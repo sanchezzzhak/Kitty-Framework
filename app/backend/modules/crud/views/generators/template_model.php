@@ -1,5 +1,8 @@
 <?="<?php\n"; ?>
-class <?=trim($name);?> extends model
+
+use \kitty\web\arr;
+
+class <?=trim($name);?> extends \kitty\db\model
 {
 
     public $_table = '<?=$table?>';  // Таблица

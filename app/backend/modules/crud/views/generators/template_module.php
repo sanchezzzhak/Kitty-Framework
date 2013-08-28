@@ -1,5 +1,8 @@
 <?="<?php\n"; ?>
-class <?=trim($name);?>_module extends module
+
+use \kitty\web\arr;
+
+class <?=trim($name);?>_module extends \kitty\app\module
 {
 
     public function init(){

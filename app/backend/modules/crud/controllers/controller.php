@@ -1,15 +1,8 @@
-<?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Александр
- * Date: 23.08.13
- * Time: 13:10
- * To change this template use File | Settings | File Templates.
- */
+<?
 
+use \kitty\web\arr;
 
-
-class controller_controller extends Controller {
+class controller_controller extends \kitty\app\Controller {
 
     public  $layout = '//main';
 
@@ -87,7 +80,7 @@ class controller_controller extends Controller {
         if(count($error)==0){
 
            $content = $this->render('generators/template_controller',array(
-                'extend' => 'Controller',
+                'extend' => '\kitty\app\Controller',
                 'name'   => $name,
                 'layout' => $layout,
                 'actions'=> $actions
