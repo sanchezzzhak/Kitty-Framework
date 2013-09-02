@@ -1,0 +1,22 @@
+{
+    "name": "kitty/kitty",
+    "description": "The Kitty Framework",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Tutik Alexander",
+            "email": "sanchezzzhak@ya.ru"
+        }
+    ],
+    "repositories":[
+        {
+            "type": "vcs",
+            "url":  "https://github.com/sanchezzzhak/Kitty-Framework.git"
+        }
+
+
+
+
+
+    ]
+}
