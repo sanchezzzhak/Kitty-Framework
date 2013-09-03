@@ -1,17 +1,13 @@
-<?php
-/*
- Ïğèìåğû êîíôèãîâ ïîä ğàçíûå ÁÄ
-*/
-
-
-
-
-
+<?
 return array(
 
+
+    'dir_path' => realpath( __DIR__ . "/../" ),
 	'locale' => array('en'), // setLocale 
-	'lang'   => 'ru',                  
-	// DataBase
+	'lang'   => 'ru',  
+
+	
+	// DataBase config;
 	
 	'db'=>array( 
 	

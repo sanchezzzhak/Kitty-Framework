@@ -1,14 +1,4 @@
-<?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Александр
- * Date: 23.08.13
- * Time: 14:45
- * To change this template use File | Settings | File Templates.
- */
-
-    // Класс создан по подобию Yii->gii
-
+<?
 
 
 Class CodeFile {

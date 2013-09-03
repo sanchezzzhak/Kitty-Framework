@@ -1,4 +1,6 @@
-<?php
+<?
+namespace modules\crud\controller;
+
 use \kitty\web\arr;
 use \kitty\app\app;
 

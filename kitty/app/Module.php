@@ -1,28 +1,45 @@
 <?
 namespace kitty\app;
-
+use kitty\app\config;
+use kitty\base\autoload;
 
 
 class Module extends \kitty\base\ExtendBaseClass { 
 
 	public
+        // Имя модуля
+        $name,
 		// Путь к преложению или путь к модулю. 
 		$basePath,      
 		// Добавочные пути к baseApp 
 		$pathController = '/controllers',    
 		$pathModule     = '/modules',
-		// Имя модуля
-		$name;          
+        // Namespace модуля или базового контроллера
+        $controllerNamespace  = null,
+
+
+        $controllerMap = array();
 	
 	public function __construct($config = array()){
 		$this->setBasePath($config['basePath']);
 	}
 	
 	/*
-	* Функция иницелизации для модуля, вызывается при первом подключении к модулю. 
+	* Функция иницелизации
 	*/
 	public function init(){
-	
+        if($this->controllerNamespace===null){
+
+            if( $this instanceof WebApplication ){
+                $this->controllerNamespace = '\\app\\controllers';
+            }else{
+                $class = get_class($this);
+                if (($pos = strrpos($class, '\\')) !== false) {
+                    $this->controllerNamespace = substr($class, 0, $pos) . '\\controllers';
+                }
+
+            }
+        }
 	}
 	
 	/**
@@ -38,57 +55,67 @@ class Module extends \kitty\base\ExtendBaseClass {
 	
 	/**
 	 * Установить basePath
+     * @param $path базовой путь.
+     * @throw Если каталог не существует.
 	 **/
 	public function setBasePath($path){
-		$this->basePath = $path;
+        if(($path = realpath($path))!==false && is_dir($path)){
+            $this->basePath = $path;
+        }else{
+            throw new \kitty\base\ExceptionError("Каталог не существует :class->setBasePath(':path')", array(
+                ':class' => get_class($this),
+                ':path'  => $path,
+            ));
+        }
 	}
 	
 	/**
 	 * Запустить указанный контролер 
 	 * @param $name    Имя контролера
 	 * @param $action  Имя запускаемого метода 
-	 * @param $params  Параметры для контролера
-	 * @see 
-	 * Можно запустить контроллер из корня для этого в имени контроллера, нужно указать //
-	 * Каждый / - это уровень директории назад 
+	 * @param $params  Параметры для контроллера
 	**/
 	public function runController($name , $action = 'index' , $params = null ){	
-		$result = false;
+
+        $result = false;
 		$oldBasePath     = $this->getBasePath();
 		$name_controller = trim($name,'/');
-		$sub_path = str_replace($name_controller , '',  implode('../', explode('/', $name)));
-		$baseAppPath  = $this->getBasePath() ."/" . $sub_path ;
+
+		//$sub_path = str_replace($name_controller , '',  implode('../', explode('/', $name)));
+		$baseAppPath  = $this->getBasePath();
+
+
 		$this->setBasePath($baseAppPath);
-		$path  =  $baseAppPath . trim( $this->pathController ,'/' )
-			. "/". $name_controller .".php";
-			
+        $path  =  $baseAppPath . "/" . trim( $this->pathController ,'/' )   . "/". $name_controller .".php";
+
 		if(is_readable($path)){
 
-			include_once $path;			
-			$class = $name_controller."_controller";
-			if(class_exists($class,false)){			
+			include_once $path;
+
+			$class = $this->controllerNamespace . '\\' .$name_controller."_controller";
+            //$namespace_class = ltrim($this->controllerNamespace . '\\' . trim( $this->pathController ,'/' ) . $class, '\\');
+            pre($class);
+
+
+			if(($result = class_exists($class,false))!==false){
 				$controller = new $class;
-				$operation =  (!empty($this->name) ? $this->name . '::' : '')
-				              . implode('->',array( $name , $action ));
+				$operation =  (!empty($this->name) ? $this->name . '::' : '') . implode('->',array( $name , $action ));
 
 				$controller->param = $params;
 
 				if(method_exists( $controller  , 'action'.$action)){
 
-                    // header('Kitty_path_controller: '.realpath($path));
+                    // header('Kitty.path.controller: ' . realpath($path));
 
                     $controller->setOperation( $operation );
                     // Выполнили до
                     $controller->before();
 					$controller->{'action'.$action}();
+                    // Выполнили после
+                    $controller->after();
 
+                }
 
-
-
-				}else $result = false;
-				// Выполнили после	
-				$controller->after();	
-				$result = true;	
 			}
 		}
 		$this->setBasePath($oldBasePath);
@@ -105,29 +132,37 @@ class Module extends \kitty\base\ExtendBaseClass {
 	public function runModule($name , $controller = 'default_main' , $action = 'index', $params = array() ){
 		$baseAppPath     = $this->getBasePath();
 		// Путь к модулю
-		$path = $baseAppPath."/".trim( $this->pathModule ,'/' )."/".$name."/".$name.".php";
-		// Список модулей в конфиге 
-		$arrModules = Config::get('modules');
+		$path = $baseAppPath . "/" . trim( $this->pathModule ,'/' ) . "/" . $name . "/" . $name . ".php";
+		// Список модулей в конфиге
+
+
+
+		$arrModules = config::get('modules');
+
+
 		if(is_readable($path) && in_array($name, $arrModules)){
 			include_once $path;
-			$class = $name."_module";	
+
+			$class = trim("app\\modules\\".$name."\\".$name."_module");
+
+            pre($class);
 			if(class_exists($class,false)){
+
 				/*
-				$ref = new ReflectionClass($class);	
-				$path = pathinfo( $ref->getFileName(), PATHINFO_DIRNAME);
+                    $ref = new ReflectionClass($this);
+                    $path = pathinfo( $ref->getFileName(), PATHINFO_DIRNAME);
 				*/
                 $path = pathinfo( $path , PATHINFO_DIRNAME);
-
-				$module = new $class( array( 
+				$module = new $class( array(
 					'basePath'=> $path,
 				));
-
+                $module->name = $name;
 				$module->init();
 				// Регестрируем путь для моделей
-				\kitty\base\Autoload::addPath( $path . DIRECTORY_SEPARATOR . "models" );
+				// autoload::addPath( $path .  "/models" );
 				// Запуск контролера в модуле
 				if(!empty($controller)){
-					$module->name = $name;
+
 					return $module->runController($controller , $action, $params);
 				}		
 				return true;

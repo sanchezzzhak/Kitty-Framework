@@ -1,4 +1,6 @@
 <?
+namespace app\modules\crud\controller;
+
 use kitty\web\arr;
 
 class model_controller extends \kitty\app\controller {

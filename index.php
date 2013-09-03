@@ -1,30 +1,23 @@
 <?
-	namespace kitty;
-	/* # -== kitty Freamwork ==- #
-	 * 
-	 **/
-	 
-	error_reporting(E_ALL | E_STRICT);
-	
 
-	$dirname = dirname(__FILE__);
-	// Подключение фреймворка + базовые надстройки
-	include_once  $dirname  . "/kitty/init.php";
+error_reporting(E_ALL | E_STRICT);
 
-	// Общий конфиг для backend и frontend
-	\kitty\app\config::load( require( $dirname . "/app/config.php" ));
+// Подключение фреймворка
+include_once __DIR__ . "/kitty/init.php";
 
-	// Если backend-config
-	if(preg_match('#^/admin/?([^/.,;?\n]+)?#i', $_SERVER['REQUEST_URI'] )){
-		$config = require( $dirname . "/app/backend/config/main.php" );
-	}else{
-	// Иначе frontend-config
-		$config = require( $dirname . "/app/frontend/config/main.php" );
-	}
-	// Создаем приложение 
+// Общий конфиг для backend и frontend
+\kitty\app\config::load( require __DIR__ . "/app/config.php" );
 
-	$app = \kitty\app\app::make('\kitty\app\WebApplication', $config );
-	$app->run();    
+// Если backend-config
+if (preg_match('#^/admin/?([^/.,;?\n]+)?#i', $_SERVER['REQUEST_URI'])) {
+    $config = require( __DIR__ . "/app/backend/config/main.php");
+// Иначе frontend-config
+} else {
+    $config = require(__DIR__ . "/app/frontend/config/main.php");
+}
+// Запускаем приложение
+$app = \kitty\app\app::make('\kitty\app\WebApplication', $config);
+$app->run();
 
 
 

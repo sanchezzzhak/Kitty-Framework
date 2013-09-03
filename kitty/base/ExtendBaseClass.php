@@ -101,7 +101,7 @@ class ExtendBaseClass {
 	
 	
 	public function __unset($name){
-		if(property_exists($name)){
+		if( property_exists($name) ){
 			unset($this->{$name});
 		}
 		return;

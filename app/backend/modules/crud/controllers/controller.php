@@ -1,6 +1,8 @@
 <?
+namespace modules\crud\controller;
 
 use \kitty\web\arr;
+use \kitty\app\config;
 
 class controller_controller extends \kitty\app\Controller {
 
@@ -8,10 +10,11 @@ class controller_controller extends \kitty\app\Controller {
 
     // Форма
     public function actionIndex(){
+
         $this->pageTitle = 'Конструктор контроллеров';
 
         $arrPathFrontend = $arrPathBackend = array();
-        $path = doc_root . "/app/frontend/modules";
+        $path = config::get('dir_path') . "/app/frontend/modules";
         if(is_dir($path)){
              $list = scandir($path);
              foreach($list as $file){
@@ -20,7 +23,7 @@ class controller_controller extends \kitty\app\Controller {
              }
         }
 
-        $path = doc_root . "/app/backend/modules";
+        $path = config::get('dir_path') . "/app/backend/modules";
         if(is_dir($path)){
             $list = scandir($path);
             foreach($list as $file){
@@ -31,7 +34,7 @@ class controller_controller extends \kitty\app\Controller {
 
         $this->render('controller_form',array(
             'arrPathFrontend' => $arrPathFrontend,
-            'arrPathBackend' => $arrPathBackend,
+            'arrPathBackend'  => $arrPathBackend,
         ));
 
     }
@@ -40,21 +43,20 @@ class controller_controller extends \kitty\app\Controller {
      * Сохранить контроллер
      **/
     public function actionSave(){
+
         $this->layout = false;
+
         $success = false;
         $error = $list = array();
-
-        $actions = array('index');
 
         if(!($name =  $this->post('name',null,'!empty'))){
             $error[] = 'Не назван контроллер';
         }elseif(!preg_match('#^[a-z]{1}([a-z0-9\_]+)$#i',$name) ){
-            $error[] = 'Неверно заданно название контроллера';
+            $error[] = 'Неверно задано название контроллера ';
         }
 
         if(!($layout = $this->post('layout',null,'!empty')))
             $error[] = 'Не указан слой';
-
 
         if(!($path = $this->post('path',null,'!empty')))
             $error[] = 'Не указан путь';
@@ -65,10 +67,11 @@ class controller_controller extends \kitty\app\Controller {
 
         $arrAction = $this->post('action',array() );
 
+        $actions = array('index');
         foreach($arrAction as $action){
             if(preg_match('#^[a-z]{1}([a-z0-9\_]+)$#i',$action) ){
                 if(!isset($actions[strtolower($action)]))
-                    $list[] = 'Метод "'.$action . '" создан';
+                    $list[] = 'Метод "' . $action . '" создан';
 
                 $actions[strtolower($action)] = strtolower($action);
             }else{

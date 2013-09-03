@@ -1,6 +1,11 @@
-<?="<?php\n"; ?>
-
+<?="<?\n"; ?>
+namespace <?=$namespace;?>
 use /kitty/web/arr;
+
+/**
+*
+* @see Прификс _controller Обезателен в каждом классе контролера
+*/
 
 class <?=trim($name);?>_controller extends <?=$extend?>
 {

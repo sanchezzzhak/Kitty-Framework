@@ -1,5 +1,6 @@
 <?php
 namespace kitty\app;
+use kitty\app\app;
 use kitty\web\arr;
 
 /**
@@ -27,7 +28,7 @@ class router {
 		$param = array(),			         // Параметры  которые распарсили из строки
 		$prepare_key =  array(),  			 // Ключи, полученые из строки /:controler/:actrion
 		$callback    = null,                 // Функция для выполнения
-		$default_controler = 'default_main'; // Контроллер по умолчанию
+		$default_controller = 'default_main'; // Контроллер по умолчанию
 
 	
 	protected static $routes = array();      // список обьектов роутеров
@@ -39,8 +40,7 @@ class router {
 		return router::$routes[$name] = new router($path, $regex , $callback );
 	}
 	
-	
-	
+
 	/**
 	 * Задать контроллер
 	 * @param	$name   string Имя контролера можно задать явно и по маске URL
@@ -93,17 +93,17 @@ class router {
 	}
 	
 	/**
-	 * Получить роутер по имени из колекции
+	 *  Получить роутер по имени из коллекции
 	 */
 	public static function get($name){
 		if (!isset(router::$routes[$name])) return;
-		return router::$routes[$name];	
+		return router::$routes[$name];
 	}
-	
+
 	/**
 	 * Компиляция 
-	 * $url    /:controler/:action
-	 * $params array(':controler'=>'[\w]+')
+	 * $url    /:controller/:action
+	 * $params array(':controller'=>'[\w]+')
 	 */
 	public static function compile( $url, $params  = array() ){
 		preg_match_all(self::REGEX_KEY, $url ,$match);
