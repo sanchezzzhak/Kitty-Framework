@@ -2,21 +2,20 @@
 namespace kitty\web;
 
 /**
- * Работа с массивами
-**/ 
-
+ * @see Работа с массивами
+**/
 class arr {
 	
 	/**
 	 * Получить только нужные нам ключи из массива
 	 * @param $array где искать 
 	 * @param $keys нужные ключи.
-	 * @usage 
-	 * 
+	 * @usage
 	 *   arr::extract(array(
 	 *   	0=>array('id'=>1,'name'=>'apple'),
 	 *   	'name'=>array('id'=>2)
 	 *   ), array('id','name'),'samsung');
+     * @return array;
 	 **/
     public static function extract(&$array, array $keys, $default = null){
         $arr = array();

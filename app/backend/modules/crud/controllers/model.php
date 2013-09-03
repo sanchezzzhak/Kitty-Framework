@@ -1,7 +1,7 @@
 <?
-namespace app\modules\crud\controller;
-
+namespace app\modules\crud\controllers;
 use kitty\web\arr;
+
 
 class model_controller extends \kitty\app\controller {
     public  $layout = '//main';

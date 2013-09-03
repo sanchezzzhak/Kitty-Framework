@@ -87,17 +87,11 @@ class Module extends \kitty\base\ExtendBaseClass {
 
 		$this->setBasePath($baseAppPath);
         $path  =  $baseAppPath . "/" . trim( $this->pathController ,'/' )   . "/". $name_controller .".php";
-
 		if(is_readable($path)){
-
 			include_once $path;
-
 			$class = $this->controllerNamespace . '\\' .$name_controller."_controller";
-            //$namespace_class = ltrim($this->controllerNamespace . '\\' . trim( $this->pathController ,'/' ) . $class, '\\');
-            pre($class);
-
-
 			if(($result = class_exists($class,false))!==false){
+
 				$controller = new $class;
 				$operation =  (!empty($this->name) ? $this->name . '::' : '') . implode('->',array( $name , $action ));
 
@@ -145,7 +139,7 @@ class Module extends \kitty\base\ExtendBaseClass {
 
 			$class = trim("app\\modules\\".$name."\\".$name."_module");
 
-            pre($class);
+
 			if(class_exists($class,false)){
 
 				/*
