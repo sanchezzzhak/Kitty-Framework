@@ -9,7 +9,7 @@ class ExtendBaseClass {
 
 	
 	protected
-		$__extend_set = false,	// Флаг для вставки свойства в класс
+		$__extend_set = false,	// Флаг для вставки свойства в класс нужен для метода extend...
 		$_events,     			// События 
 		$_behaviors;  			// Поведения
 	
@@ -25,14 +25,16 @@ class ExtendBaseClass {
 		$this->_events = $this->_behaviors = null;
 	}
 	
-	/**
-	 *  
+    /**
 	 * Задает новое свойство в классе
 	 * @param  $name  имя свойства
 	 * @param  $value значение
-	 * @example  
-	    $this->extend('prop_session' , new Session() );
-	    $this->prop_session->Id();
+	 <p>
+	   $this->extend('prop_session' , new /kitty/web/Session() );
+	   $this->prop_session->Id();
+     </p>
+     * @throw  ExceptionError
+     * @return mixed;
 	**/
 	public function extend($name , $value){
 		if(!method_exists($this,$name) && !$this->property_exists($this,$name)){
@@ -44,6 +46,10 @@ class ExtendBaseClass {
 	/**
 	 * Установить свойтсва у класса.
 	 * Выполнить setter метод если есть у класса
+     * @param  $name           Имя свойства или сеттер метод set$name
+     * @param  $value          Значение
+     * @throw  ExceptionError  Если свойства класса не определено
+     * @return mixed;
 	 **/
 	public function __set($name , $value){
 		// Если это новое свойство заданное через wrapObject
@@ -73,9 +79,12 @@ class ExtendBaseClass {
 		));
 	}
 	
-	/* 
-	 *	Вызвать getter метод, если он есть
-	 *  Получить свойство класса
+	/**
+	 * Вызвать getter метод, если он есть
+	 * Получить свойство класса
+	 * @param $name  Имя свойства или геттер меттод get$name()
+     * @throw  ExceptionError  Если свойства класса не определено
+     * @return mixed;
 	 */
 	public function __get($name){
 		$getter = 'get'.$name;
@@ -91,8 +100,7 @@ class ExtendBaseClass {
 				}
 			}
 		}
-		
-		
+
 		throw new ExceptionError('Запрашиваемое свойство {class}::{name} не найдено', array(
 			'{class}'=> get_class($this), 
 			'{name}' => $name,
@@ -101,7 +109,7 @@ class ExtendBaseClass {
 	
 	
 	public function __unset($name){
-		if( property_exists($name) ){
+		if( property_exists($this,$name) ){
 			unset($this->{$name});
 		}
 		return;
@@ -109,7 +117,7 @@ class ExtendBaseClass {
 	
 	
 	public function __isset($name){
-		if(property_exists($name)){
+		if(property_exists($this,$name) ){
 			return true;
 		}
 		return false;
@@ -138,7 +146,7 @@ class ExtendBaseClass {
 				$return = true;
 			}else{
 				foreach ($this->_events[$name] as $i => $event) {
-					if ($event[0] === $handler) {
+					if ($event[0] === $callback) {
 						unset($this->_events[$name][$i]);
 						$return = true;
 					}
@@ -251,7 +259,6 @@ class ExtendBaseClass {
 		}
 		return false;
 	}
-	 
-	
+
 	
 }

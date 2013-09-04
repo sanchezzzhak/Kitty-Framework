@@ -3,7 +3,6 @@ namespace kitty\base;
 /**
 * Class ExceptionError - Обрабочик ошибок
 */
-
 class ExceptionError extends \Exception {
 	
 	public function __construct($string = '', $params = array() ){

@@ -1,39 +1,39 @@
 <?
 use \kitty\app\router;
 
-
-// Çàïóñê ìîäóëÿ êîíòğîëëåğà è íóæíîãî íàì äåéñòâèÿ 
+// Ğ—Ğ°Ğ¿ÑƒÑĞº Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€Ğ° Ğ¸ Ğ½ÑƒĞ¶Ğ½Ğ¾Ğ³Ğ¾ Ğ½Ğ°Ğ¼ Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ 
 router::set('module+controller+action', '/admin/:module/:contoller/:action', array() )
 ->setController(':contoller', ':action')->setModule(':module'); 
 
-// Çàïóñê ìîäóëÿ âûáğàíîãî êîíòğîëåğà è ìåòîäà
+// Ğ—Ğ°Ğ¿ÑƒÑĞº Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ Ğ²Ñ‹Ğ±Ñ€Ğ°Ğ½Ğ¾Ğ³Ğ¾ ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»ĞµÑ€Ğ° Ğ¸ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ°
 router::set('module+controller', '/admin/:module/:controller', array() )
 ->setController(':controller', null)->setModule(':module'); 
 
-// Çàïóñê ìîäóëÿ è êîíòğîëåğà ïî óìîë÷àíèş 
+// Ğ—Ğ°Ğ¿ÑƒÑĞº Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ Ğ¸ ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»ĞµÑ€Ğ° Ğ¿Ğ¾ ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ 
 router::set('module', '/admin/:module', array() )
 ->setController('default_main', null)->setModule(':module'); 
 
-// Çàïóñê êîíòğîëåğà è äåéñòâèÿ
+// Ğ—Ğ°Ğ¿ÑƒÑĞº ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»ĞµÑ€Ğ° Ğ¸ Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ
 router::set('controller+action' , '/admin/:controller/:action', array() )
 ->setController(':controller', ':action' );
 
-// Çàïóñê êîíòğîëåğà è äåéñòâèÿ ïî óìîë÷àíèş
+// Ğ—Ğ°Ğ¿ÑƒÑĞº ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»ĞµÑ€Ğ° Ğ¸ Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ Ğ¿Ğ¾ ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ
 router::set('controller' , '/admin/:controller', array() )
 ->setController(':controller', null);	
 
-// Çàïóñê êîíòğîëåğà ïî óìîë÷àíèş
+// Ğ—Ğ°Ğ¿ÑƒÑĞº ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»ĞµÑ€Ğ° Ğ¿Ğ¾ ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ
 router::set('default' , '^/admin/?$', array())->setController('default_main');
 
 return array(
-	// ïóòü ê ïğèëîæåíèş ïî óìîë÷àíèş 
+	// Ğ¿ÑƒÑ‚ÑŒ Ğº Ğ¿Ñ€Ğ¸Ğ»Ğ¾Ğ¶ĞµĞ½Ğ¸Ñ Ğ¿Ğ¾ ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ 
 	'page404'  => '/admin',
-	'name'     => 'Ïàíåëü óïğàâëåíèÿ ñàéòîì',
+	'name'     => 'ĞŸĞ°Ğ½ĞµĞ»ÑŒ ÑƒĞ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ñ ÑĞ°Ğ¹Ñ‚Ğ¾Ğ¼',
 	'basePath' => dirname(__FILE__)."/..",
 
-	// ñïèñîê ìîäóëåé
+	// ÑĞ¿Ğ¸ÑĞ¾Ğº Ğ¼Ğ¾Ğ´ÑƒĞ»ĞµĞ¹
 	'modules'   => array(
-		'crud'
+        'content',
+		'crud',
 	),
 	
 );

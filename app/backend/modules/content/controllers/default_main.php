@@ -1,11 +1,12 @@
-	<?
-	
-	class contents_controller extends controller {
-		public  $layout = 'main';
-		
-		public function before(){
-			
-		}
+<?
+namespace app\modules\content\controllers;
+use kitty\db\db;
+
+
+
+	class default_main_controller extends \kitty\app\controller {
+		public  $layout = '//main';
+
 		
 		/**
 		 * Создать страницу 
